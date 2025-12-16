@@ -4,6 +4,7 @@ dotenv.config()
 import express from "express"
 import Stripe from "stripe"
 import cors from "cors"
+import fs from "fs"
 
 const app = express()
 app.listen(8080)
@@ -36,5 +37,16 @@ app.post("/generate-payment-link", async (req, res) => {
         
     } catch (err) {
         res.status(500).json({message: err.message})
+    }
+})
+
+app.post("/webhook", (req, res) => {
+    try {
+        const paymentData = JSON.stringify(req.body, null, 2)
+        fs.writeFileSync("payment.json", paymentData)
+        res.json({message: "Request received from stripe"})
+        
+    } catch (err) {
+        console.log(err)
     }
 })
