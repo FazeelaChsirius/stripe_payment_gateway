@@ -45,6 +45,7 @@ app.post("/webhook", (req, res) => {
         const paymentData = JSON.stringify(req.body, null, 2)
         fs.writeFileSync("payment.json", paymentData)
         res.json({message: "Request received from stripe"})
+        console.log('paymnet data', paymentData)
         
     } catch (err) {
         console.log(err)
